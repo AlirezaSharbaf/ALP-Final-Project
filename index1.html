@@ -11,6 +11,8 @@
   <link href="./files/css2" rel="stylesheet">
   <link href="./files/css" rel="stylesheet">
   <base href="." target="_blank">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <title>My Website</title>
 </head>
 <body>
   <div class="wrapper">
@@ -18,17 +20,18 @@
     <h4 style="font-family: 'Lato', sans-serif;">Fall 2024 CSCI 5541 NLP: Class Project - University of Minnesota</h4>
     <h4 style="font-family: 'Lato', sans-serif;">Team Artificial Language Processing (ALP)</h4>
 
+    <div class="authors-row">
       <div class="author-container">
         <div class="author-image">
-          <img src="">
+          <img src="mahdi.jpg" alt="Mahdi">
         </div>
-        <p>Alireza Sharbafchi</p>
+        <p>Mahdi Saberi</p>
       </div>
       <div class="author-container">
         <div class="author-image">
-          <img src="">
+          <img src="alireza.jpg" alt="Alireza">
         </div>
-        <p>Mahdi Saberi</p>
+        <p>Alireza Sharbafchi</p>
       </div>
     </div>
 
@@ -37,18 +40,13 @@
     <div class="authors-wrapper">
       <div class="publication-links">
         <span class="link-block">
-          <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
+          <a href="report.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
             <span>Final Report</span>
           </a>
         </span>
         <span class="link-block">
-          <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
+          <a href="NLP.zip" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
             <span>Code</span>
-          </a>
-        </span>
-        <span class="link-block">
-          <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark is-outlined">
-            <span>Model Weights</span>
           </a>
         </span>
       </div>
@@ -58,17 +56,32 @@
   <div class="wrapper">
     <hr>
     <h2 id="abstract">Abstract</h2>
-    <p>Our project investigates the robustness of NLP models against adversarial attacks. We fine-tune the BERT model on both clean and adversarial data (generated via synonym-based perturbations) to understand its resilience. Despite adversarial training, accuracy improvements were modest, highlighting the challenges of making models robust to diverse adversarial inputs.</p>
+    <p>Modern natural language processing (NLP) models such as BERT, GPT-3, and LLaMA 
+      have achieved impressive language understanding capabilities but remain vulnerable 
+      to adversarial attacks. Even minor input modifications can lead to misclassifications 
+      or unintended outputs, posing a significant challenge for their reliable deployment 
+      in critical applications. Although recent efforts to optimize and quantize these 
+      models enable efficient deployment on resource-constrained devices like smartphones 
+      --- exemplified by Meta's quantized LLaMA variants, which offer substantial reductions 
+      in model size and memory usage --- such optimizations often come at the cost of decreased 
+      robustness.
+      In this work, we systematically investigate the vulnerabilities of quantized NLP models 
+      to adversarial perturbations and develop techniques to enhance their resilience. 
+      By identifying the factors that contribute to robustness degradation in smaller, 
+      more efficient models, we propose strategies to strengthen their defenses without 
+      compromising their efficiency benefits. Our findings aim to improve the trustworthiness 
+      of NLP models across a wide spectrum of hardware platforms, ultimately fostering 
+      safer and more reliable language technologies for real-world deployments..</p>
     <hr>
 
     
 
     <h2 id="introduction">Introduction / Background / Motivation</h2>
     <p><b>What did you try to do? What problem did you try to solve? Articulate your objectives using absolutely no jargon.</b></p>
-    <p>We aimed to enhance the robustness of NLP models by making them more resistant to adversarial attacks that change the input text while preserving its meaning.</p>
+    <p>We aimed to enhance the robustness of quantized LLM models by making them more resistant to adversarial attacks that change the input text while preserving its meaning.</p>
 
     <p><b>How is it done today, and what are the limits of current practice?</b></p>
-    <p>Current models are trained on clean data, which leaves them vulnerable to adversarial perturbations. Adversarial training can help, but it is limited by the diversity and unpredictability of attacks.</p>
+    <p>Current models are trained on clean data, which leaves them vulnerable to adversarial perturbations. Adversarial training can help, but it is limited by the diversity and unpredictability of attacks. The limits of the our method could be the computational demand.</p>
 
     <p><b>Who cares? If you are successful, what difference will it make?</b></p>
     <p>Improving robustness makes NLP models more reliable in real-world applications, enhancing security and reducing susceptibility to adversarial manipulations.</p>
@@ -76,7 +89,7 @@
 
     <h2 id="approach">Approach</h2>
     <p><b>What did you do exactly? How did you solve the problem? Why did you think it would be successful? Is anything new in your approach?</b></p>
-    <p>We fine-tuned BERT on adversarial examples generated by changing words to their synonyms. This aimed to expose the model to variations in inputs and improve its resilience. We believed that by expanding the training data with adversarial examples, the model would learn to generalize better under attacks.</p>
+    <p>We used TextBuugger method to attack SST-2 dataset, then we fine-tuned Llama on the attecked version of SST-2. This aimed to expose the model to variations in inputs and improve its resilience. We believed that by expanding the training data with adversarial examples, the model would learn to generalize better under attacks.</p>
 
     <p><b>What problems did you anticipate? What problems did you encounter? Did the very first thing you tried work?</b></p>
     <p>We anticipated that replacing too many words could compromise the integrity of the input sentence. Indeed, the model showed limited improvement, likely due to the variability of possible adversaries and the challenge in effectively generalizing from such attacks.</p>
@@ -84,36 +97,58 @@
 
     <h2 id="results">Results</h2>
     <p><b>How did you measure success? What experiments were used? What were the results, both quantitative and qualitative? Did you succeed? Did you fail? Why?</b></p>
-    <p>We measured success by evaluating the model's accuracy on both clean and adversarial datasets. Before adversarial training, BERT achieved 88.09% accuracy on adversarial examples. After adversarial training, the accuracy improved by 1.05%. On the clean dataset, the model performed at 92.83% accuracy. This limited improvement suggests that the model struggles to generalize effectively to diverse adversarial inputs.</p>
+    <p>We measured success by evaluating the model's accuracy on both clean and adversarial datasets. Before adversarial training, Llama achieved 44.6% accuracy on adversarial examples. After adversarial training, the accuracy improved to 51.2%. On the clean dataset, the model performed at 91.2% accuracy. This limited improvement suggests that the model struggles to generalize effectively to diverse adversarial inputs.</p>
     <table>
       <thead>
         <tr>
-          <th style="text-align: center"><strong>Experiment</strong></th>
-          <th style="text-align: center">1</th>
-          <th style="text-align: center">2</th>
-          <th style="text-align: center">3</th>
+          <th style="text-align: center"><strong>Model</strong></th>
+          <th style="text-align: center">Test Acc w/o Attack</th>
+          <th style="text-align: center">Test Acc with Attack</th>
+          <th style="text-align: center">Test Acc with Attack on Adversary Network</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: center"><strong>Sentence</strong></td>
-          <td style="text-align: center">Example 1</td>
-          <td style="text-align: center">Example 2</td>
-          <td style="text-align: center">Example 3</td>
+          <td style="text-align: center"><strong>Llama 13B</strong></td>
+          <td style="text-align: center">0.963</td>
+          <td style="text-align: center">0.812</td>
+          <td style="text-align: center">.</td>
         </tr>
         <tr>
-          <td style="text-align: center"><strong>Errors</strong></td>
-          <td style="text-align: center">error A, error B, error C</td>
-          <td style="text-align: center">error C</td>
-          <td style="text-align: center">error B</td>
+          <td style="text-align: center"><strong>Llama 7B</strong></td>
+          <td style="text-align: center">0.968</td>
+          <td style="text-align: center">0.820</td>
+          <td style="text-align: center">.</td>
+        </tr>
+          <td style="text-align: center"><strong>Llama 3B</strong></td>
+          <td style="text-align: center">0.912</td>
+          <td style="text-align: center">0.446</td>
+          <td style="text-align: center">0.513</td>
+        </tr>
+          <td style="text-align: center"><strong>Llama 1B</strong></td>
+          <td style="text-align: center">0.887</td>
+          <td style="text-align: center">0.350</td>
+          <td style="text-align: center">0.492</td>
         </tr>
       </tbody>
       <caption>Table 1. Examples of adversarial errors.</caption>
     </table>
     
+    <figure class="image-container">
+      <img src="TrainAcc.jpg" alt="Example Image">
+      <figcaption>Train accuracy of fine-tuning Llama 1B on SST-2 dataset for 12 epochs.</figcaption>
+    </figure>
+    </html>    
+
+
+    <figure class="image-container">
+      <img src="TrainLoss.jpg" alt="Example Image">
+      <figcaption>Train loss of fine-tuning Llama 1B on SST-2 dataset for 12 epochs.</figcaption>
+    </figure>
+    </html>  
 
     <h2 id="conclusion">Conclusion and Future Work</h2>
-    <p>Our work has demonstrated the challenges of adversarial training in NLP, particularly when faced with diverse synonym-based attacks. In future work, we plan to evaluate the robustness of Meta's newly introduced quantized Llama models against adversarial inputs, considering the trade-offs between efficiency gains and robustness. These quantized models, while offering significant speedup and size reduction, may present new vulnerabilities that we aim to investigate thoroughly.</p>
+    <p>This study analyzed the robustness of defferent versions os LLaMA against prompt-based adversarial attacks, revealing significant accuracy drops, especially in optimized versions. Adversarial fine-tuning improved resilience but posed computational challenges. Future work includes exploring advanced attack strategies, evaluating the generalizability of adversarial defenses across tasks, and implementing resource-efficient training methods. Incorporating human-in-the-loop approaches could enhance interpretability, while studying ethical implications ensures responsible development. These efforts aim to create more secure and efficient LLMs, bridging the trade-off between robustness and efficiency for real-world applications on diverse platforms.</p>
     <hr>
   </div>
 </body>

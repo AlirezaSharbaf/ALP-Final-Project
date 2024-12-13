@@ -337,9 +337,48 @@ caption {
 }
 /*# sourceMappingURL=styles.css.map */
 
+.authors-row {
+    display: flex; /* Align children horizontally */
+    justify-content: center; /* Center the items in the container */
+    gap: 100px; /* Add space between author containers */
+    align-items: center; /* Align items vertically */
+  }
+  
+  .author-container {
+    display: flex; /* Align image and text in a column */
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center; /* Center image and text within each container */
+  }
+  
+  .author-image img {
+    width: 100px; /* Set image width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 50%; /* Makes the image circular */
+  }
+ 
+  .image-container {
+    display: flex; /* Enable flexbox for centering */
+    flex-direction: column; /* Stack image and caption vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 70vh; /* Make the container take the full viewport height */
+    margin: 0; /* Remove default margins */
+}
 
+.image-container img {
+    width: 50%; /* Adjust image size */
+    max-width: 800px; /* Prevent the image from growing too large */
+    height: auto; /* Maintain aspect ratio */
+}
 
+.image-container figcaption {
+    text-align: center; /* Ensure the caption is centered */
+    font-size: 16px; /* Adjust caption size */
+    color: #555; /* Optional: Set a lighter color for the caption */
+    margin-top: 2px; /* Add spacing between image and caption */
+}
 
+  
 .link-block a {
     margin-top: 5px;
     margin-bottom: 5px;
